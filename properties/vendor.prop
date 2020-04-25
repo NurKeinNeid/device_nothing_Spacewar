@@ -107,6 +107,9 @@ vendor.display.enable_optimize_refresh=1
 vendor.display.use_smooth_motion=1
 vendor.gralloc.disable_ubwc=0
 
+# Dalvik
+dalvik.vm.dex2oat64.enabled=true
+
 # DPM
 persist.vendor.dpm.idletimer.mode=default
 persist.vendor.dpmhalservice.enable=1
