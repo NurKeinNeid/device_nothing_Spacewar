@@ -75,6 +75,7 @@ ro.bluetooth.a2dp_offload.supported=true
 
 # Camera
 camera.disable_zsl_mode=true
+vendor.camera.aux.packagelist=com.snapchat.android
 
 # Crypto
 ro.crypto.dm_default_key.options_format.version=2
