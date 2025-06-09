@@ -269,6 +269,9 @@ PRODUCT_PACKAGES += \
 # ION
 $(call soong_config_set_bool,libion,legacy_impl,true)
 
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/etc/init.nt.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.nt.rc
+
 # IPACM
 PRODUCT_PACKAGES += \
     ipacm \
