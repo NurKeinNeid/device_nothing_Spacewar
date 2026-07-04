@@ -14,8 +14,17 @@
 #include "aac_vibra_function.h"
 
 #define RICHTAP_LIGHT_STRENGTH 69
-#define RICHTAP_MEDIUM_STRENGTH 89
-#define RICHTAP_STRONG_STRENGTH 99
+#define RICHTAP_MEDIUM_STRENGTH 100
+#define RICHTAP_STRONG_STRENGTH 150
+
+enum vibrationMode {
+    MODE_NONE,
+    MODE_TIMEOUT,
+    MODE_PREBAKED,
+    MODE_STREAM,
+};
+
+static vibrationMode sLastMode = MODE_NONE;
 
 namespace aidl {
 namespace android {
@@ -32,6 +41,8 @@ Vibrator::Vibrator() {
     }
 
     aac_vibra_looper_start();
+
+    aac_vibra_setAmplitude(0x7F);
 
     ALOGI("AAC init success: %u\n", deviceType);
 }
@@ -68,7 +79,28 @@ ndk::ScopedAStatus Vibrator::on(int32_t timeoutMs,
         }).detach();
     }
 
+    sLastMode = MODE_TIMEOUT;
     return ndk::ScopedAStatus::ok();
+}
+
+std::optional<uint32_t> mapEffectToPrebakedId(Effect effect) {
+    switch (effect) {
+        case Effect::CLICK:
+            return 0x3008;
+        case Effect::DOUBLE_CLICK:
+            return 0x1001;
+        case Effect::TICK:
+            return 0x3003;
+        case Effect::THUD:
+            return 0x3003;
+        case Effect::POP:
+            return 0x3003;
+        case Effect::HEAVY_CLICK:
+            return 0x3007;
+
+        default:
+            return static_cast<uint32_t>(effect) + 0x1000;
+    }
 }
 
 ndk::ScopedAStatus Vibrator::perform(Effect effect, EffectStrength es,
@@ -93,7 +125,20 @@ ndk::ScopedAStatus Vibrator::perform(Effect effect, EffectStrength es,
             return ndk::ScopedAStatus(AStatus_fromExceptionCode(EX_UNSUPPORTED_OPERATION));
     }
 
-    int32_t ret = aac_vibra_looper_prebaked_effect(static_cast<uint32_t>(effect), strength);
+    if (sLastMode == MODE_STREAM)
+        aac_vibra_setAmplitude(0xFF);
+
+    auto mappedEffect = mapEffectToPrebakedId(effect);
+    if (!mappedEffect.has_value()) {
+        ALOGE("Unsupported effect: %d", static_cast<int>(effect));
+        return ndk::ScopedAStatus(AStatus_fromExceptionCode(EX_UNSUPPORTED_OPERATION));
+    }
+
+    ALOGD("Performing effect_id=0x%x (mapped from %d), strength=%d",
+          mappedEffect.value(), static_cast<int>(effect), strength);
+
+    int32_t ret = aac_vibra_looper_prebaked_effect(mappedEffect.value(), strength);
+
     if (ret < 0) {
         ALOGE("AAC perform failed: %d\n", ret);
         return ndk::ScopedAStatus(AStatus_fromExceptionCode(EX_SERVICE_SPECIFIC));
@@ -108,6 +153,7 @@ ndk::ScopedAStatus Vibrator::perform(Effect effect, EffectStrength es,
 
     *_aidl_return = ret;
 
+    sLastMode = MODE_PREBAKED;
     return ndk::ScopedAStatus::ok();
 }
 
@@ -127,6 +173,7 @@ ndk::ScopedAStatus Vibrator::setAmplitude(float amplitude) {
         return ndk::ScopedAStatus(AStatus_fromExceptionCode(EX_SERVICE_SPECIFIC));
     }
 
+    sLastMode = MODE_STREAM;
     return ndk::ScopedAStatus::ok();
 }
 
