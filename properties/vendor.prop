@@ -201,6 +201,7 @@ wifi.aware.interface=wifi-aware0
 
 # Performance
 ro.vendor.perf.scroll_opt=true
+vendor.perf.topAppRenderThreadBoost.enable=true
 
 # Zygote
 zygote.critical_window.minute=10
