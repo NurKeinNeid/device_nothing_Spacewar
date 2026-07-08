@@ -199,5 +199,8 @@ vendor.usb.use_gadget_hal=1
 # WiFi
 wifi.aware.interface=wifi-aware0
 
+# Performance
+ro.vendor.perf.scroll_opt=true
+
 # Zygote
 zygote.critical_window.minute=10
