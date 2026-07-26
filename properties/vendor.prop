@@ -40,7 +40,8 @@ vendor.audio.feature.power_mode.enable=true
 vendor.audio.feature.ras.enable=true
 vendor.audio.feature.snd_mon.enable=true
 vendor.audio.feature.src_trkn.enable=true
-vendor.audio.feature.ssrec.enable=true
+# libssrec crashes in get_device_types (null deref) and takes down audio.service -> bootloop
+vendor.audio.feature.ssrec.enable=false
 vendor.audio.feature.usb_offload_burst_mode.enable=true
 vendor.audio.feature.usb_offload.enable=true
 vendor.audio.flac.sw.decoder.24bit=true
