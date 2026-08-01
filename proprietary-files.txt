@@ -774,6 +774,19 @@ vendor/lib64/libsdm-disp-vndapis.so
 vendor/lib64/libsdmextension.so
 vendor/lib64/libtinyxml2_1.so
 
+# Perf (QSSI BoostFramework stubs)
+system/etc/permissions/com.qualcomm.qti.Performance.xml
+system/etc/permissions/com.qualcomm.qti.UxPerformance.xml
+system/framework/QPerformance.jar;BOOT_JAR
+system/framework/QXPerformance.jar
+system/framework/UxPerformance.jar;BOOT_JAR
+system/lib64/vendor.qti.hardware.perf2-V1-ndk.so;DISABLE_CHECKELF
+system_ext/framework/ActivityExt.jar
+system_ext/lib64/libqti-at.so;DISABLE_CHECKELF
+system_ext/lib64/libqti-perfd-client_system.so;DISABLE_CHECKELF
+system_ext/lib64/libqti_performance.so;DISABLE_CHECKELF
+system_ext/lib64/vendor.qti.hardware.iop@2.0.so;DISABLE_CHECKELF
+
 # DPM
 system/framework/tcmclient.jar
 system/lib64/vendor.qti.diaghal-V1-ndk.so
