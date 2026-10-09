@@ -205,20 +205,8 @@
     <!-- Default refresh rate while the device has high brightness mode enabled for HDR. -->
     <integer name="config_defaultRefreshRateInHbmHdr">60</integer>
 
-    <!-- List of biometric sensors on the device, in decreasing strength. Consumed by AuthService
-         when registering authenticators with BiometricService. Format must be ID:Modality:Strength,
-         where: IDs are unique per device, Modality as defined in BiometricAuthenticator.java,
-         and Strength as defined in Authenticators.java -->
-    <string-array name="config_biometric_sensors" translatable="false">
-        <item>0:2:15</item> <!-- ID0:Fingerprint:Strong -->
-    </string-array>
-
-    <!-- The properties of a UDFPS sensor in pixels, in the order listed below: -->
-    <integer-array name="config_udfps_sensor_props" translatable="false">
-        <item>540</item>  <!-- <item>sensorLocationX</item> -->
-        <item>2170</item> <!-- <item>sensorLocationY</item> -->
-        <item>94</item>   <!-- <item>sensorRadius</item> -->
-    </integer-array>
+    <!-- Whether to enable fp unlock when screen turns off on udfps devices -->
+    <bool name="config_screen_off_udfps_enabled">true</bool>
 
     <!-- Type of the udfps long press sensor. Empty if long press is not supported. -->
     <string name="config_dozeUdfpsLongPressSensorType" translatable="false">org.lineageos.sensor.udfps</string>
@@ -289,26 +277,26 @@
       array. The brightness values must be non-negative and non-decreasing. This must be
       overridden in platform specific overlays -->
     <array name="config_autoBrightnessDisplayValuesNits">
-      <item>7</item>              <!--  0 - 1 -->
-      <item>14</item>             <!--  1 - 2 -->
-      <item>26</item>             <!--  2 - 3 -->
-      <item>30</item>             <!--  3 - 4 -->
+      <item>2</item>              <!--  0 - 1 -->
+      <item>22</item>             <!--  1 - 2 -->
+      <item>28</item>             <!--  2 - 3 -->
+      <item>31</item>             <!--  3 - 4 -->
       <item>34</item>             <!--  4 - 8 -->
-      <item>43</item>             <!--  8 - 12 -->
-      <item>49</item>             <!--  12 - 20 -->
-      <item>58</item>             <!--  20 - 33 -->
-      <item>67</item>             <!--  33 - 55 -->
-      <item>78</item>             <!--  55 - 90 -->
-      <item>93</item>             <!--  90 - 148 -->
-      <item>112</item>            <!--  148 - 245 -->
-      <item>137</item>            <!--  245 - 403 -->
-      <item>175</item>            <!--  403 - 665 -->
-      <item>226</item>            <!--  665 - 1097 -->
-      <item>292</item>            <!--  1097 - 1808 -->
-      <item>371</item>            <!--  1808 - 2981 -->
-      <item>459</item>            <!--  2981 - 5000 -->
-      <item>500</item>            <!--  5000 - 10000 -->
-      <item>582.36131</item>      <!--  10000+ -->
+      <item>58</item>             <!--  8 - 12 -->
+      <item>73</item>             <!--  12 - 20 -->
+      <item>93</item>             <!--  20 - 33 -->
+      <item>112</item>             <!--  33 - 55 -->
+      <item>141</item>             <!--  55 - 90 -->
+      <item>171</item>             <!--  90 - 148 -->
+      <item>200</item>            <!--  148 - 245 -->
+      <item>230</item>            <!--  245 - 403 -->
+      <item>260</item>            <!--  403 - 665 -->
+      <item>289</item>            <!--  665 - 1097 -->
+      <item>319</item>            <!--  1097 - 1808 -->
+      <item>349</item>            <!--  1808 - 2981 -->
+      <item>378</item>            <!--  2981 - 5000 -->
+      <item>672</item>            <!--  5000 - 10000 -->
+      <item>1018</item>      <!--  10000+ -->
     </array>
 
     <!-- An array describing the screen's backlight values corresponding to the brightness
@@ -521,18 +509,9 @@
         <item>30</item>
     </integer-array>
 
-    <!-- Vibrator pattern for feedback about booting with safe mode enabled -->
-    <integer-array name="config_safeModeEnabledVibePattern">
-        <item>1</item>
-        <item>20</item>
-        <item>21</item>
-        <item>500</item>
-        <item>600</item>
-    </integer-array>
-
-        <!-- Enables or disables haptic effect when the text insertion/selection handle is moved
-          manually by the user. Off by default, since the expected haptic feedback may not be
-          available on some devices. -->
+    <!-- Enables or disables haptic effect when the text insertion/selection handle is moved
+         manually by the user. Off by default, since the expected haptic feedback may not be
+         available on some devices. -->
     <bool name="config_enableHapticTextHandle">true</bool>
 
     <!-- The default intensity level for haptic feedback. See

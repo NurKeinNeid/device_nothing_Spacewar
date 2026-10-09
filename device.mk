@@ -40,7 +40,7 @@ PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
     hardware/nothing \
     hardware/google/interfaces \
-    hardware/google/pixel \
+    hardware/google/pixel/power-libperfmgr \
     hardware/qcom-caf/common/libqti-perfd-client \
     hardware/lineage/interfaces/power-libperfmgr \
     vendor/qcom/opensource/usb/etc
@@ -218,6 +218,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/displayconfig/display_id_4630946480328692354.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630946480328692354.xml
 
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/displayconfig/display_id_4630946480328692354.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630946480328692354.xml
+
 # DRM
 PRODUCT_PACKAGES += \
     android.hardware.drm-service.clearkey
@@ -228,7 +231,7 @@ PRODUCT_PACKAGES += \
 
 # Fingerprint
 PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint@2.3-service.nothing \
+    android.hardware.biometrics.fingerprint-service.nothing \
     libudfpshandler
 
 $(call soong_config_set,surfaceflinger,udfps_lib,//hardware/nothing:libudfps_extension.nothing)
@@ -258,7 +261,11 @@ PRODUCT_PACKAGES += \
     init.qti.kernel.sh \
     init.recovery.qcom.rc \
     init.target.rc \
+    init.Spacewar.rc \
     ueventd.qcom.rc
+
+# ION
+$(call soong_config_set_bool,libion,legacy_impl,true)
 
 # IPACM
 PRODUCT_PACKAGES += \
@@ -266,7 +273,6 @@ PRODUCT_PACKAGES += \
     IPACM_cfg.xml
 
 # Kernel
-PRODUCT_ENABLE_UFFD_GC := true
 PRODUCT_SET_DEBUGFS_RESTRICTIONS := true
 
 # Lights
@@ -307,7 +313,7 @@ PRODUCT_PACKAGES += \
     Tag
 
 # Nt-fwk
-$(call inherit-product, hardware/nothing/nt-fwk/nt-fwk.mk)
+$(call inherit-product, hardware/nothing/packages/nt-fwk/nt-fwk.mk)
 
 # Power
 PRODUCT_PACKAGES += \
@@ -322,10 +328,6 @@ PRODUCT_PACKAGES += \
     vendor.lineage.powershare-service.default
 
 $(call soong_config_set,lineage_powershare,powershare_path,/sys/class/qcom-battery/wireless_boost_en)
-
-# QTI
-PRODUCT_PACKAGES += \
-    libvndfwk_detect_jni.qti.vendor # Needed by CNE app
 
 # RIL
 PRODUCT_PACKAGES += \
