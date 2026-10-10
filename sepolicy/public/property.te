@@ -6,3 +6,4 @@ type sysfs_powershare, sysfs_type, fs_type;
 
 # Glyph LEDs
 type vendor_sysfs_glyph, sysfs_type, fs_type;
+type sysfs_glyph_cam, sysfs_type, fs_type;
